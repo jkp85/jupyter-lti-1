@@ -39,8 +39,9 @@ class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel
    */
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     let callback = () => {
+        let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/";
         context.save();
-        fetch('http://192.168.0.102:5000/v1/admin/projects/a2ef9f8d-b202-493b-85ba-1ca27433f144/lti/assignment/', {
+        fetch(url, {
             method: 'POST',
             body: JSON.stringify({'path': context.path}),
             headers: {'Content-Type': 'application/json;charset=utf-8'}
