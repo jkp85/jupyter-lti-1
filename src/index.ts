@@ -44,7 +44,8 @@ class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({'path': context.path}),
-            headers: {'Content-Type': 'application/json;charset=utf-8'}
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+            referrerPolicy: "no-referrer"
         }).then(res => res.json())
         .catch(console.error)
         .then(console.log)
