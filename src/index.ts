@@ -7,7 +7,7 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  ToolbarButton
+  ToolbarButton, showDialog, Dialog
 } from '@jupyterlab/apputils';
 
 import {
@@ -40,15 +40,34 @@ class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     let callback = () => {
         let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/";
+        let buttons = [Dialog.okButton()];
+        let errorDialog = {
+            title:"Error",
+            body: "There was an error while sending submission",
+            buttons: buttons
+        };
         context.save();
         fetch(url, {
             method: 'POST',
             body: JSON.stringify({'path': context.path}),
             headers: {'Content-Type': 'application/json;charset=utf-8'},
             referrerPolicy: "no-referrer"
-        }).then(res => res.json())
-        .catch(console.error)
-        .then(console.log)
+        }).then(res => {
+            if (!res.ok) {
+                console.log(res);
+                showDialog(errorDialog);
+            } else {
+                showDialog({
+                    title: "Success",
+                    body: "Your assignment was sent to Canvas",
+                    buttons: buttons
+                })
+            }
+        })
+        .catch(error => {
+            showDialog(errorDialog);
+            console.error(error);
+        });
     };
     let button = new ToolbarButton({
       className: 'myButton',
