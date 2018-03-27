@@ -39,7 +39,8 @@ class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel
    */
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     let callback = () => {
-        let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/";
+        let query = new URLSearchParams(window.location.search);
+        let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/" + query.get('assignment_id') + "/";
         let buttons = [Dialog.okButton()];
         let errorDialog = {
             title:"Error",
