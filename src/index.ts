@@ -34,13 +34,17 @@ const plugin: JupyterLabPlugin<void> = {
  */
 export
 class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel, INotebookModel> {
+  assignment_id: string;
+  constructor(assignment_id: string) {
+    this.assignment_id = assignment_id;
+  };
   /**
    * Create a new extension object.
    */
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
+    let self = this;
     let callback = () => {
-        let query = new URLSearchParams(window.location.search);
-        let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/" + query.get('assignment_id') + "/";
+        let url = window.location.pathname.split('endpoint')[0] + "lti/assignment/" + self.assignment_id + "/";
         let buttons = [Dialog.okButton()];
         let errorDialog = {
             title:"Error",
@@ -91,7 +95,11 @@ class ButtonExtension implements DocumentRegistry.IWidgetExtension<NotebookPanel
  * Activate the extension.
  */
 function activate(app: JupyterLab) {
-  app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension());
+  let query = new URLSearchParams(window.location.search);
+  let assignment_id = query.get('assignment_id');
+  if(!!assignment_id) {
+    app.docRegistry.addWidgetExtension('Notebook', new ButtonExtension(query.get('assignment_id')));
+  }
 };
 
 
