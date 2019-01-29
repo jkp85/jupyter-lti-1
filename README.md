@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/IllumiDesk/jupyter-lti.svg?branch=master)](https://travis-ci.org/IllumiDesk/jupyter-lti)
+[![Build Status](https://travis-ci.com/IllumiDesk/jupyter-lti.svg?branch=master)](https://travis-ci.org/IllumiDesk/jupyter-lti)
+[![npm version](http://img.shields.io/npm/v/illumidesk/jupyter-lti.svg?style=flat)](https://npmjs.org/package/illumidesk/jupyter-lti 'View this project on npm')
 
 # jupyterlab-lti
 
@@ -61,7 +62,4 @@ jupyter lab
 
 Only users with the `Student` role are able to see the extension and submit an assignemt to the Canvas LMS.
 
-[These help docs](https://docs.illumidesk.com) contain more information about the Canvas LMS and IllumiDesk
-configuration steps.
-
-- Start JupyterLab
+[These help docs](https://docs.illumidesk.com) contain more information about the Canvas LMS and IllumiDesk configuration steps.
