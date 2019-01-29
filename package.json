@@ -1,6 +1,6 @@
 {
   "name": "@illumidesk/jupyter-lti",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "JupyterLab LTI extension for the Canvas LMS.",
   "keywords": [
     "lti",
