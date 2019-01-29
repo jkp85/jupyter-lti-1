@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/IllumiDesk/jupyter-lti.svg?branch=master)](https://travis-ci.org/IllumiDesk/jupyter-lti)
-[![npm version](http://img.shields.io/npm/v/illumidesk/jupyter-lti.svg?style=flat)](https://npmjs.org/package/illumidesk/jupyter-lti 'View this project on npm')
+[![npm version](http://img.shields.io/npm/v/illumidesk/jupyter-lti.svg?style=flat)](https://npmjs.org/package/@illumidesk/jupyter-lti 'View this project on npm')
 
 # jupyterlab-lti
 
