@@ -1,0 +1,5 @@
+.jp-ltiWidget {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
