@@ -72,13 +72,10 @@ export class ButtonExtension
     };
     let button = new ToolbarButton({
       className: 'myButton',
+      iconClassName: 'fa fa-share-square',
       onClick: callback,
       tooltip: 'Submit to Canvas'
     });
-
-    let i = document.createElement('i');
-    i.classList.add('fa', 'fa-share-square');
-    button.node.appendChild(i);
 
     panel.toolbar.insertItem(0, 'submit', button);
     return new DisposableDelegate(() => {
