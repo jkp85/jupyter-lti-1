@@ -9,9 +9,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/illumidesknow/jupyter-lti",
+  "homepage": "https://github.com/illumidesk/jupyter-lti",
   "bugs": {
-    "url": "https://github.com/illumidesknow/jupyter-lti/issues"
+    "url": "https://github.com/illumidesk/jupyter-lti/issues"
   },
   "license": "BSD-3-Clause",
   "author": "Greg Werner",
@@ -23,7 +23,7 @@
   "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/illumidesknow/jupyter-lti.git"
+    "url": "https://github.com/illumidesk/jupyter-lti.git"
   },
   "scripts": {
     "build": "tsc",
