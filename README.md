@@ -3,11 +3,7 @@
 
 # jupyterlab-lti
 
-IllumiDesk canvas assignment submission button
-
-## Prerequisites
-
-- JupyterLab 0.35
+IllumiDesk's Canvas LMS assignment submission button.
 
 ## Installation
 
