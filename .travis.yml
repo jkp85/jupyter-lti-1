@@ -1,17 +1,18 @@
 language: node_js
 node_js:
-- lts/*
+  - lts/*
 sudo: false
 notifications:
   email: false
 before_install:
-- wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O ~/miniconda.sh;
-- bash ~/miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
-- pip install --pre jupyterlab
+  - wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O ~/miniconda.sh;
+  - bash ~/miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - pip install --pre jupyterlab
 install:
-- npm install
-- npm run build
+  - npm install rimraf -g
+  - npm install
+  - npm run build
 deploy:
   provider: npm
   email: werner.greg@gmail.com
