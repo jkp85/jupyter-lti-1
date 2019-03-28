@@ -39,8 +39,9 @@ export class ButtonExtension
       let parts = window.location.host.split('.');
       let serverName = parts.shift();
       let projectName = parts.shift();
+      let accountName = parts.shift();
       let host = parts.join('.');
-      let url = `${proto}//${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${
+      let url = `${proto}//${accountName}/${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${
         self.assignment_id
       }/`;
       let buttons = [Dialog.okButton()];
