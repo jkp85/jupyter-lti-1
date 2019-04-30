@@ -35,11 +35,15 @@ export class ButtonExtension
   ): IDisposable {
     let self = this;
     let callback = () => {
-      let url =
-        window.location.pathname.split('endpoint')[0] +
-        'lti/assignment/' +
-        self.assignment_id +
-        '/';
+      let proto = window.location.protocol;
+      let parts = window.location.host.split('.');
+      let serverName = parts.shift();
+      let projectName = parts.shift();
+      let accountName = parts.shift();
+      let host = parts.join('.');
+      let url = `${proto}//${accountName}/${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${
+        self.assignment_id
+      }/`;
       let buttons = [Dialog.okButton()];
       let errorDialog = {
         title: 'Error',
