@@ -17,6 +17,87 @@ const plugin: JupyterLabPlugin<void> = {
   autoStart: true
 };
 
+let getUrl = (assignment_id: string) => {
+  let proto = window.location.protocol;
+  let parts = window.location.host.split('.');
+  let serverName = parts.shift();
+  let projectName = parts.shift();
+  let accountName = parts.shift();
+  let host = parts.join('.');
+  return `${proto}//${accountName}/${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${assignment_id}/`;
+};
+
+let sendCallback = (
+  assignment_id: string,
+  context: DocumentRegistry.IContext<INotebookModel>
+) => () => {
+  let url = getUrl(assignment_id);
+  let buttons = [Dialog.okButton()];
+  let errorDialog = {
+    title: 'Error',
+    body: 'There was an error while sending submission',
+    buttons: buttons
+  };
+  context.save();
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    referrerPolicy: 'no-referrer'
+  })
+    .then(res => {
+      if (!res.ok) {
+        console.log(res);
+        showDialog(errorDialog);
+      } else {
+        showDialog({
+          title: 'Success',
+          body: 'Your assignment was sent to Canvas',
+          buttons: buttons
+        });
+      }
+    })
+    .catch(error => {
+      showDialog(errorDialog);
+      console.error(error);
+    });
+};
+
+let resetCallback = (
+  assignment_id: string,
+  context: DocumentRegistry.IContext<INotebookModel>
+) => () => {
+  let sendUrl = getUrl(assignment_id);
+  let url = `${sendUrl}reset/`;
+  let buttons = [Dialog.okButton()];
+  let errorDialog = {
+    title: 'Error',
+    body: 'There was an error while reseting assignment file',
+    buttons: buttons
+  };
+  context.save();
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    referrerPolicy: 'no-referrer'
+  })
+    .then(res => {
+      if (!res.ok) {
+        console.log(res);
+        showDialog(errorDialog);
+      } else {
+        showDialog({
+          title: 'Success',
+          body: 'Your assignment file was reset',
+          buttons: buttons
+        });
+      }
+    })
+    .catch(error => {
+      showDialog(errorDialog);
+      console.error(error);
+    });
+};
+
 /**
  * A notebook widget extension that adds a button to the toolbar.
  */
@@ -34,56 +115,24 @@ export class ButtonExtension
     context: DocumentRegistry.IContext<INotebookModel>
   ): IDisposable {
     let self = this;
-    let callback = () => {
-      let proto = window.location.protocol;
-      let parts = window.location.host.split('.');
-      let serverName = parts.shift();
-      let projectName = parts.shift();
-      let accountName = parts.shift();
-      let host = parts.join('.');
-      let url = `${proto}//${accountName}/${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${
-        self.assignment_id
-      }/`;
-      let buttons = [Dialog.okButton()];
-      let errorDialog = {
-        title: 'Error',
-        body: 'There was an error while sending submission',
-        buttons: buttons
-      };
-      context.save();
-      fetch(url, {
-        method: 'POST',
-        body: JSON.stringify({ path: context.path }),
-        headers: { 'Content-Type': 'application/json;charset=utf-8' },
-        referrerPolicy: 'no-referrer'
-      })
-        .then(res => {
-          if (!res.ok) {
-            console.log(res);
-            showDialog(errorDialog);
-          } else {
-            showDialog({
-              title: 'Success',
-              body: 'Your assignment was sent to Canvas',
-              buttons: buttons
-            });
-          }
-        })
-        .catch(error => {
-          showDialog(errorDialog);
-          console.error(error);
-        });
-    };
-    let button = new ToolbarButton({
-      className: 'myButton',
+    let sendButton = new ToolbarButton({
+      className: 'mySendButton',
       iconClassName: 'fa fa-share-square',
-      onClick: callback,
+      onClick: sendCallback(self.assignment_id, context),
       tooltip: 'Submit to Canvas'
     });
+    let resetButton = new ToolbarButton({
+      className: 'myResetButton',
+      iconClassName: 'fa fa-undo',
+      onClick: resetCallback(self.assignment_id, context),
+      tooltip: 'Reset assignment file'
+    });
 
-    panel.toolbar.insertItem(0, 'submit', button);
+    panel.toolbar.insertItem(0, 'send', sendButton);
+    panel.toolbar.insertItem(0, 'reset', resetButton);
     return new DisposableDelegate(() => {
-      button.dispose();
+      sendButton.dispose();
+      resetButton.dispose();
     });
   }
 }
