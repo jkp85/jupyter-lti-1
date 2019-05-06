@@ -19,12 +19,14 @@ const plugin: JupyterLabPlugin<void> = {
 
 let getUrl = (assignment_id: string) => {
   let proto = window.location.protocol;
-  let parts = window.location.host.split('.');
-  let serverName = parts.shift();
-  let projectName = parts.shift();
-  let accountName = parts.shift();
-  let host = parts.join('.');
-  return `${proto}//${accountName}/${host}/projects/${projectName}/servers/${serverName}/lti/assignment/${assignment_id}/`;
+  let parts = window.location.pathname.split('/');
+  let version = parts[1];
+  let serverName = parts[6];
+  let projectName = parts[4];
+  let accountName = parts[2];
+  return `${proto}//${
+    window.location.host
+  }/${version}/${accountName}/projects/${projectName}/servers/${serverName}/lti/assignment/${assignment_id}/`;
 };
 
 let sendCallback = (
