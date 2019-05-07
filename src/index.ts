@@ -126,7 +126,18 @@ export class ButtonExtension
     let resetButton = new ToolbarButton({
       className: 'myResetButton',
       iconClassName: 'fa fa-undo',
-      onClick: resetCallback(self.assignment_id, context),
+      onClick: () => {
+        showDialog({
+          title: 'Reset assignment file',
+          body: 'Are you sure you want to reset assignment file?',
+          buttons: [Dialog.cancelButton(), Dialog.okButton()]
+        }).then(result => {
+          console.log(result);
+          if (result.button.accept) {
+            resetCallback(self.assignment_id, context)();
+          }
+        });
+      },
       tooltip: 'Reset assignment file'
     });
 
